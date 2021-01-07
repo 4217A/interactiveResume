@@ -1,0 +1,35 @@
+body {
+    color: #555;
+    background-color: #555;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+h1 {
+    text-shadow: 0 1px 10px #999;
+}
+
+ button {
+    background-color: #f9f9f9;
+    /*background-image: linear-gradient(from top to bottom, #f9f9f9 0%, #e0e0e0 100%);*/
+    border: none;
+    border-radius: 2em;
+    box-shadow: 0 3px 10px #555;
+    color: #7c7c7c;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    max-width: 50%;
+    padding: 0.5em;
+    width: 18em;
+ }
+
+ button:active {
+    background-image: none;
+    border: none;
+    box-shadow: 0 3px 8px #777;
+    outline: none;
+    transform: translateY(3px);
+ }
