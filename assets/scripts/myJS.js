@@ -8,41 +8,47 @@ const c = myCanvas.getContext('2d');
 myCanvas.width = html.clientWidth;
 myCanvas.height = html.clientHeight + 4;
 //sprites
-const myBackgroundFile = new Image();
-myBackgroundFile.src = "assets/img/back.png";
 const mySpaceshipFile = new Image();
 mySpaceshipFile.src = "assets/img/spaceship.png";
 const myBoostFile = new Image();
 myBoostFile.src = "assets/img/boost.png";
 
-class Game {
+const myStarsFile = new Image();
+myStarsFile.src = "assets/img/stars.png";
+const myPlanetsFile = new Image();
+myPlanetsFile.src = "assets/img/planets.png";
+const myBackgroundFile = new Image();
+myBackgroundFile.src = "assets/img/back.png";
 
+class Game {
     draw() {
         myCanvas.width = html.clientWidth;
         myCanvas.height = html.clientHeight + 4;
-        //console.log(`canvas W ${myCanvas.width}`); //RR
+        c.clearRect(0, 0, myCanvas.width, myCanvas.height);
         myBackground.render(myBackgroundFile, myCanvas.width, myCanvas.height);
+        myStars.render(myStarsFile, myCanvas.width, myCanvas.height);
+        myPlanets.render(myPlanetsFile, myCanvas.width, myCanvas.height);
         mySpaceship.render(mySpaceshipFile, myCanvas.width, myCanvas.height);
         myControl.render(40, myCanvas.width, myCanvas.height);
     }
 }
 
 class Background {
-    constructor() {
+    constructor(speed, thrust, MIN_SPEED, MAX_SPEED) {
         this.altitude = 1;
-        this.speed = 1; 
-        this.thrust = 3;
+        this.speed = speed; 
+        this.thrust = thrust;
         this.gravity = -0.05;
-        this.MIN_SPEED = 2;
-        this.MAX_SPEED = 8;
+        this.MIN_SPEED = MIN_SPEED;
+        this.MAX_SPEED = MAX_SPEED;
     }
 
     moveup() {
         if (this.speed <= this.MAX_SPEED) {
             this.speed = this.speed + this.thrust;
-            console.log('moveup'); //RR
+            //console.log('moveup'); //RR
         } else {
-            console.log('max speed reached'); //RR
+            //console.log('max speed reached'); //RR
         }
     }
 
@@ -60,21 +66,16 @@ class Background {
             0, 
             0, 
             canvasW, 
-            canvasH);
-        //calc new altitude, only add gravity if speed is greater than MIN SPEED
-        console.log(this.speed) //RR
-        if (this.speed > this.MIN_SPEED) {
-            this.altitude = this.altitude + this.speed;
-            this.speed = this.speed + this.gravity;
-        } else {
-            this.altitude = this.altitude + this.speed;
-        }
-        // //if speed goes negative then set back to original
-        // if (this.speed > 0) {
-        //     this.speed = this.speed + this.gravity;
-        // } else {
-        //     this.speed = this.MIN_SPEED;
-        // }
+            canvasH);    
+       //calc new altitude, only add gravity if speed is greater than MIN SPEED
+       //console.log(this.speed) //RR
+
+       if (this.speed > this.MIN_SPEED) {
+           this.altitude = this.altitude + this.speed;
+           this.speed = this.speed + this.gravity;
+       } else {
+           this.altitude = this.altitude + this.speed;
+       }
     }
 }
 
@@ -121,6 +122,8 @@ class Control {
             //console.log('*******'); //RR
             //console.log('in x and y'); //RR
             myBackground.moveup();
+            myStars.moveup();
+            myPlanets.moveup();
             this.animateCount = 1;
             }
         }
@@ -168,12 +171,14 @@ class Control {
 //function to animate
 function loop() {
     myGame.draw();
-    requestAnimationFrame(loop);
+    window.requestAnimationFrame(loop);
 }
 
 //start
 const myGame = new Game();
-const myBackground = new Background();
+const myStars = new Background(1, 3, 2, 8);
+const myPlanets = new Background(1, 3, 2, 8);
+const myBackground = new Background(1, 3, 2, 8);
 const mySpaceship = new Spaceship();
 const myBoost = new Spaceship();
 const myControl = new Control();
@@ -186,3 +191,5 @@ myBackgroundFile.onload = function() {
     console.log('loaded'); //RR
     loop();
 }
+
+
