@@ -5,8 +5,10 @@ const html = document.querySelector('html');
 //canvas
 const myCanvas = document.getElementById('myCanvas');
 const c = myCanvas.getContext('2d');
-myCanvas.width = html.clientWidth;
-myCanvas.height = html.clientHeight + 4;
+// myCanvas.width = html.clientWidth;
+// myCanvas.height = html.clientHeight + 4;
+myCanvas.width = document.documentElement.clientWidth;
+myCanvas.height = document.documentElement.clientHeight + 4;
 //sprites
 const mySpaceshipFile = new Image();
 mySpaceshipFile.src = "assets/img/spaceship.png";
@@ -22,8 +24,10 @@ myBackgroundFile.src = "assets/img/back.png";
 
 class Game {
     draw() {
-        myCanvas.width = html.clientWidth;
-        myCanvas.height = html.clientHeight + 4;
+        // myCanvas.width = html.clientWidth;
+        // myCanvas.height = html.clientHeight + 4;
+        myCanvas.width = document.documentElement.clientWidth;
+        myCanvas.height = document.documentElement.clientHeight + 4;
         c.clearRect(0, 0, myCanvas.width, myCanvas.height);
         myBackground.render(myBackgroundFile, myCanvas.width, myCanvas.height);
         myStars.render(myStarsFile, myCanvas.width, myCanvas.height);
@@ -67,15 +71,19 @@ class Background {
             0, 
             canvasW, 
             canvasH);    
-       //calc new altitude, only add gravity if speed is greater than MIN SPEED
-       //console.log(this.speed) //RR
+        //calc new altitude, only add gravity if speed is greater than MIN SPEED
+        //console.log(this.speed) //RR
 
-       if (this.speed > this.MIN_SPEED) {
-           this.altitude = this.altitude + this.speed;
-           this.speed = this.speed + this.gravity;
-       } else {
-           this.altitude = this.altitude + this.speed;
-       }
+        if (myfile.height - canvasH - this.altitude > 50) {
+            if (this.speed > this.MIN_SPEED) {
+                this.altitude = this.altitude + this.speed;
+                this.speed = this.speed + this.gravity;
+            } else {
+                this.altitude = this.altitude + this.speed;
+            }    
+        } else {
+            this.altitude = myfile.height - canvasH;
+        }
     }
 }
 
@@ -133,9 +141,12 @@ class Control {
         this.r = r;
         this.x = canvasW/2;
         this.y = canvasH - (2.5 * r);
-
+        
+        // c.fillStyle = '#231d2a';
+        c.fillStyle = '#8b0000';
+        c.beginPath();
+        
         if (this.animateCount == 0) {
-            c.fillStyle = '#231d2a';
             c.beginPath();
             c.arc(
                 this.x, 
@@ -147,8 +158,6 @@ class Control {
         } else {
             myBoost.render(myBoostFile, myCanvas.width, myCanvas.height);
 
-            c.fillStyle = '#231d2a';
-            c.beginPath();
             c.arc(
                 this.x, 
                 this.y, 
@@ -176,7 +185,7 @@ function loop() {
 
 //start
 const myGame = new Game();
-const myStars = new Background(1, 3, 2, 8);
+const myStars = new Background(0.5, 2.5, 1, 6);
 const myPlanets = new Background(1, 3, 2, 8);
 const myBackground = new Background(1, 3, 2, 8);
 const mySpaceship = new Spaceship();
