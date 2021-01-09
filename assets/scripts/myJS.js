@@ -8,7 +8,7 @@ const c = myCanvas.getContext('2d');
 // myCanvas.width = html.clientWidth;
 // myCanvas.height = html.clientHeight + 4;
 myCanvas.width = document.documentElement.clientWidth;
-myCanvas.height = document.documentElement.clientHeight + 4;
+myCanvas.height = document.documentElement.clientHeight;
 //sprites
 const mySpaceshipFile = new Image();
 mySpaceshipFile.src = "assets/img/spaceship.png";
@@ -27,7 +27,7 @@ class Game {
         // myCanvas.width = html.clientWidth;
         // myCanvas.height = html.clientHeight + 4;
         myCanvas.width = document.documentElement.clientWidth;
-        myCanvas.height = document.documentElement.clientHeight + 4;
+        myCanvas.height = document.documentElement.clientHeight;
         c.clearRect(0, 0, myCanvas.width, myCanvas.height);
         myBackground.render(myBackgroundFile, myCanvas.width, myCanvas.height);
         myStars.render(myStarsFile, myCanvas.width, myCanvas.height);
