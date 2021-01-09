@@ -154,7 +154,7 @@ class Control {
         this.y = canvasH - (2.5 * r);
         
         // c.fillStyle = '#231d2a';
-        c.fillStyle = '#ff4500';
+        c.fillStyle = '#231d2a';
         c.beginPath();
         
         if (this.animateCount == 0) {
