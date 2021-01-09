@@ -94,16 +94,27 @@ class Spaceship {
         //file
         //canvasW, canvasH
 
+    //     c.drawImage(
+    //         myfile, 
+    //         myfile.width - canvasW - (myfile.width - canvasW)/2, 
+    //         myfile.height - canvasH, 
+    //         canvasW, 
+    //         canvasH, 
+    //         0, 
+    //         0, 
+    //         canvasW, 
+    //         canvasH);
+    // }
         c.drawImage(
             myfile, 
-            myfile.width - canvasW - (myfile.width - canvasW)/2, 
-            myfile.height - canvasH, 
-            canvasW, 
-            canvasH, 
             0, 
             0, 
-            canvasW, 
-            canvasH);
+            myfile.width, 
+            myfile.height, 
+            (canvasW/2) - (myfile.width/2), 
+            canvasH - myfile.height - (0.05 * myfile.height), 
+            myfile.width, 
+            myfile.height);
     }
 }
 
@@ -143,7 +154,7 @@ class Control {
         this.y = canvasH - (2.5 * r);
         
         // c.fillStyle = '#231d2a';
-        c.fillStyle = '#8b0000';
+        c.fillStyle = '#ff4500';
         c.beginPath();
         
         if (this.animateCount == 0) {
