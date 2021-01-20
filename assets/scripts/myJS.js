@@ -51,6 +51,8 @@ class Game {
         myPlanets.render();
         mySpaceship.render();
         myControl.render();
+        c.font = ("50px Arial"); //RR
+        c.fillText(myBackground.fileH, 0, 100); //RR
     }
 }
 
