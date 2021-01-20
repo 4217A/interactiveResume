@@ -81,7 +81,7 @@ class Background {
         console.log(`fileA ${this.fileA}`); //RR
         console.log(`fileB ${this.fileB}`); //RR
 
-        this.period = 1; //frame speed
+        this.period = 5; //frame speed
         this.sX = 0; //sourceX
         this.sY = 0; //sourceY
         this.sY2 = 0; //sourceY 2 for second image
@@ -92,7 +92,7 @@ class Background {
         this.dW = 0; //destinationW
         this.dH = 0; //destinationH
 
-        this.altitude = 1;
+        this.altitude = 1400;
         this.speed = speed; 
         this.thrust = thrust;
         this.gravity = -0.05;
