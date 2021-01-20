@@ -7,8 +7,17 @@ const myCanvas = document.getElementById('myCanvas');
 const c = myCanvas.getContext('2d');
 // myCanvas.width = html.clientWidth;
 // myCanvas.height = html.clientHeight + 4;
-myCanvas.width = document.documentElement.clientWidth;
-myCanvas.height = document.documentElement.clientHeight;
+// myCanvas.width = document.documentElement.clientWidth;
+// myCanvas.height = document.documentElement.clientHeight;
+myCanvas.width = html.clientWidth;
+myCanvas.height = html.clientHeight;
+console.log('width and height html.'); //RR
+console.log(myCanvas.width); //RR
+console.log(myCanvas.height); //RR
+console.log('width and height document.documentElement'); //RR
+console.log(document.documentElement.clientWidth); //RR
+console.log(document.documentElement.clientHeight); //RR
+
 
 // const myOldStarsFile = new Image();
 // myOldStarsFile.src = "assets/img/stars old.png";
@@ -54,6 +63,9 @@ class Background {
         this.file = myfile; 
         this.fileW = myfile[0].width;
         this.fileH = myfile[0].height;
+        console.log(`${myfile[0]} is ${this.fileH}`); //RR
+        console.log(`fileA ${this.fileA}`); //RR
+        console.log(`fileB ${this.fileB}`); //RR
 
         this.period = 1; //frame speed
         this.sX = 0; //sourceX
@@ -224,7 +236,7 @@ class Control {
             myBoost.render();
         }
         //render control on top
-        c.fillStyle = '#7b28a4'; //#231d2a
+        c.fillStyle = '#231d2a'; //#231d2a 7b28a4
         c.beginPath();
         c.arc(this.x, this.y, this.r, this.startAngl, this.endAngl);
         c.fill();    
