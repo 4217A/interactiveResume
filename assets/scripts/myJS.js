@@ -63,6 +63,8 @@ class Game {
         c.fillText(myBackground.sY2, 120, 200); //RR
         c.fillText(myBackground.sY, 120, 300); //RR
         c.fillText(Math.floor(myBackground.altitude), 120, 400); //RR
+
+        c.fillText(myCanvas.height, 250, 100); //RR
     }
 }
 
