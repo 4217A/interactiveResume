@@ -51,11 +51,18 @@ class Game {
         myPlanets.render();
         mySpaceship.render();
         myControl.render();
+
         c.font = ("50px Arial"); //RR
         c.fillText(myPlanets.fileH, 0, 100); //RR
         c.fillText(myPlanets.sY2, 0, 200); //RR
         c.fillText(myPlanets.sY, 0, 300); //RR
         c.fillText(Math.floor(myPlanets.altitude), 0, 400); //RR
+
+        c.font = ("50px Arial"); //RR
+        c.fillText(myBackground.fileH, 120, 100); //RR
+        c.fillText(myBackground.sY2, 120, 200); //RR
+        c.fillText(myBackground.sY, 120, 300); //RR
+        c.fillText(Math.floor(myBackground.altitude), 120, 400); //RR
     }
 }
 
