@@ -248,7 +248,7 @@ class Control {
             myBoost.render();
         }
         //render control on top
-        c.fillStyle = '#231d2a'; //#231d2a 7b28a4
+        c.fillStyle = '#7b28a4'; //#231d2a 7b28a4
         c.beginPath();
         c.arc(this.x, this.y, this.r, this.startAngl, this.endAngl);
         c.fill();    
@@ -269,7 +269,11 @@ const imageLocation = [
  'assets/img/planets.png', 
  'assets/img/back.png',
  'assets/img/spaceship.png',
- 'assets/img/boost.png'
+ 'assets/img/boost.png',
+ 'assets/img/back1.png',
+ 'assets/img/back2.png',
+ 'assets/img/back3.png',
+ 'assets/img/back4.png'
 ]
 const images = [];
 const planetsLocation = [
@@ -297,7 +301,7 @@ function imagesLoaded() {
     myGame = new Game();
     myStars = new Background([images[0], images[0], images[0]], 1, 2, 1, 4);
     myPlanets = new Background(planetImages, 2, 3, 2, 8);
-    myBackground = new Background([images[2], images[2], images[2]], 1, 3, 2, 8);
+    myBackground = new Background([images[5], images[6], images[7], images[8]], 1, 3, 2, 8);
     mySpaceship = new Spaceship(images[3]);
     myBoost = new Spaceship(images[4]);
     //listen for click
