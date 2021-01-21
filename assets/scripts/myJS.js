@@ -83,7 +83,7 @@ class Background {
 
         this.period = 1; //frame speed
         this.sX = 0; //sourceX
-        this.sY = 7; //sourceY
+        this.sY = 7; //sourceY Non Zero to Start
         this.sY2 = 0; //sourceY 2 for second image
         this.sW = 0; //sourceW
         this.sH = 0; //sourceH
@@ -102,6 +102,7 @@ class Background {
         this.MIN_SPEED = MIN_SPEED;
         this.MAX_SPEED = MAX_SPEED;
 
+        this.drawOneImage = 1;
         this.done = 0;
     }
 
@@ -117,22 +118,9 @@ class Background {
     update(count, canvasW, canvasH) {
         if (count % this.period == 0 && !this.done) {
             //check for reaching transition period
-            if (this.sY <= 0) {
-                console.log('XXXXXXX'); //RR
-                //B image
-                this.sY2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
-                this.sH2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
-                this.dY2 = 0;
-                this.dH2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
-
-                //A image
-                this.sY = 0;
-                this.sH = canvasH;
-                this.dY = Math.floor(-1 * (this.fileH - this.altitude - canvasH));
-                this.dH = canvasH;
-
-            } else {
-                console.log('2'); //RR
+            if (this.sY > 0) {
+                console.log(`one image sY ${this.sY}`); //RR
+                this.drawOneImage = 0;
                 //console.log(`this.fileW ${this.fileW}`); //RR
                 this.sX = Math.floor(this.fileW - canvasW - (this.fileW - canvasW)/2);
                 this.sY = Math.floor(this.fileH - canvasH - (this.altitude));
@@ -145,6 +133,20 @@ class Background {
                 this.dW = canvasW;
                 this.dH = canvasH;
                 this.dH2 = canvasH;
+            } else if (this.sY <= 0) {
+                console.log(`transition ${this.sY}`); //RR
+
+                //B image
+                this.sY2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
+                this.sH2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
+                this.dY2 = 0;
+                this.dH2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
+
+                //A image
+                this.sY = 0;
+                this.sH = canvasH;
+                this.dY = Math.floor(-1 * (this.fileH - this.altitude - canvasH));
+                this.dH = canvasH;
             }
 
             //check for reaching end of file
@@ -154,6 +156,7 @@ class Background {
                 this.altitude = 1;
                 this.fileA = this.fileB;
                 this.fileB++;
+                this.drawOneImage = 1;
                 //reset
                 this.sY = Math.floor(this.fileH - canvasH - (this.altitude));
                 this.sY2 = this.fileH + this.sY;
@@ -276,7 +279,7 @@ class Control {
                 this.r = this.regR;
             } else {
                 //boost
-                console.log('boost'); //RR
+                //console.log('boost'); //RR
                 myBoost.update(myGame.count, myCanvas.width, myCanvas.height);
                 this.r = this.animateR;
                 //count animate time
@@ -295,7 +298,7 @@ class Control {
             myBoost.render();
         }
         //render control on top
-        c.fillStyle = '#231d2a'; //#231d2a 7b28a4
+        c.fillStyle = '#7b28a4'; //#231d2a 7b28a4
         c.beginPath();
         c.arc(this.x, this.y, this.r, this.startAngl, this.endAngl);
         c.fill();    
