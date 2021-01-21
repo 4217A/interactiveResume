@@ -81,27 +81,32 @@ class Background {
         console.log(`fileA ${this.fileA}`); //RR
         console.log(`fileB ${this.fileB}`); //RR
 
-        this.period = 5; //frame speed
+        this.period = 1; //frame speed
         this.sX = 0; //sourceX
-        this.sY = 0; //sourceY
+        this.sY = 7; //sourceY
         this.sY2 = 0; //sourceY 2 for second image
         this.sW = 0; //sourceW
         this.sH = 0; //sourceH
+        this.sH2 = 0;
         this.dX = 0; //destinationX
         this.dY = 0; //destinationY
+        this.dY2 = 0;
         this.dW = 0; //destinationW
         this.dH = 0; //destinationH
+        this.dH2 = 0;
 
-        this.altitude = 1400;
+        this.altitude = 0;
         this.speed = speed; 
         this.thrust = thrust;
         this.gravity = -0.05;
         this.MIN_SPEED = MIN_SPEED;
         this.MAX_SPEED = MAX_SPEED;
+
+        this.done = 0;
     }
 
     moveup() {
-        if (this.speed <= this.MAX_SPEED) {
+        if (this.speed <= this.MAX_SPEED && !this.done) {
             this.speed = this.speed + this.thrust;
             //console.log('moveup'); //RR
         } else {
@@ -110,23 +115,62 @@ class Background {
     }
 
     update(count, canvasW, canvasH) {
-        if (count % this.period == 0) {
+        if (count % this.period == 0 && !this.done) {
+            //check for reaching transition period
+            if (this.sY <= 0) {
+                console.log('XXXXXXX'); //RR
+                //B image
+                this.sY2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
+                this.sH2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
+                this.dY2 = 0;
+                this.dH2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
+
+                //A image
+                this.sY = 0;
+                this.sH = canvasH;
+                this.dY = Math.floor(-1 * (this.fileH - this.altitude - canvasH));
+                this.dH = canvasH;
+
+            } else {
+                console.log('2'); //RR
+                //console.log(`this.fileW ${this.fileW}`); //RR
+                this.sX = Math.floor(this.fileW - canvasW - (this.fileW - canvasW)/2);
+                this.sY = Math.floor(this.fileH - canvasH - (this.altitude));
+                this.sY2 = this.fileH + this.sY;
+                this.sW = canvasW;
+                this.sH = canvasH;
+                this.sH2 = canvasH;
+                //this.dY = 0;
+                //this.dY2 = 0;
+                this.dW = canvasW;
+                this.dH = canvasH;
+                this.dH2 = canvasH;
+            }
+
             //check for reaching end of file
             if (this.altitude > this.fileH && this.fileB < this.fileNum - 1) { 
+                console.log('3'); //RR
                 //reset altitude and go to next file
                 this.altitude = 1;
                 this.fileA = this.fileB;
                 this.fileB++;
+                //reset
+                this.sY = Math.floor(this.fileH - canvasH - (this.altitude));
+                this.sY2 = this.fileH + this.sY;
+                this.sW = canvasW;
+                this.sH = canvasH;
+                this.sH2 = canvasH;
+                this.dY = 0;
+                this.dY2 = 0;
+                this.dW = canvasW;
+                this.dH = canvasH;
+                this.dH2 = canvasH;
+            } else if (this.altitude > this.fileH && this.fileB == this.fileNum - 1) {
+                //end
+                console.log('you have reached the end'); //RR
+                this.done = 1;
+                this.speed = 0;
             }
-
-            //console.log(`this.fileW ${this.fileW}`); //RR
-            this.sX = Math.floor(this.fileW - canvasW - (this.fileW - canvasW)/2);
-            this.sY = Math.floor(this.fileH - canvasH - (this.altitude));
-            this.sY2 = this.fileH + this.sY;
-            this.sW = canvasW;
-            this.sH = canvasH;
-            this.dW = canvasW;
-            this.dH = canvasH;
 
             //calc new altitude, only add gravity if speed is greater than MIN SPEED
             if (this.speed > this.MIN_SPEED) {
@@ -136,11 +180,12 @@ class Background {
                 this.altitude = this.altitude + this.speed;
             } 
         }
+
     }
 
     render() {
         //imgB
-        c.drawImage(this.file[this.fileB], this.sX, this.sY2, this.sW, this.sH, this.dX, this.dY, this.dW, this.dH);
+        c.drawImage(this.file[this.fileB], this.sX, this.sY2, this.sW, this.sH2, this.dX, this.dY2, this.dW, this.dH2);
         //imgA    
         c.drawImage(this.file[this.fileA], this.sX, this.sY, this.sW, this.sH, this.dX, this.dY, this.dW, this.dH);    
     }
@@ -250,7 +295,7 @@ class Control {
             myBoost.render();
         }
         //render control on top
-        c.fillStyle = '#7b28a4'; //#231d2a 7b28a4
+        c.fillStyle = '#231d2a'; //#231d2a 7b28a4
         c.beginPath();
         c.arc(this.x, this.y, this.r, this.startAngl, this.endAngl);
         c.fill();    
