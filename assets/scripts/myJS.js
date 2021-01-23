@@ -216,7 +216,7 @@ class Spaceship {
     update(count, canvasW, canvasH) {
         if (count % this.period == 0) { //update
             this.dX = Math.floor((canvasW/2) - (this.fileW/2));
-            this.dY = Math.floor(canvasH - this.fileH - (0.05 * this.fileH));
+            this.dY = Math.floor(canvasH - this.fileH - (0.0 * this.fileH));
         }        
     }
 
@@ -272,7 +272,7 @@ class Control {
     update(count, canvasW, canvasH) {
         if (count % this.period == 0) { //update
             this.x = Math.floor(canvasW/2);
-            this.y = Math.floor(canvasH - (2.5 * this.regR));  
+            this.y = Math.floor(canvasH - (3.0 * this.regR));  
 
             if (this.animateCount == 0) {
                 //regular
@@ -298,7 +298,7 @@ class Control {
             myBoost.render();
         }
         //render control on top
-        c.fillStyle = '#7b28a4'; //#231d2a 7b28a4
+        c.fillStyle = '#2f3995'; //#231d2a 7b28a4
         c.beginPath();
         c.arc(this.x, this.y, this.r, this.startAngl, this.endAngl);
         c.fill();    
@@ -341,7 +341,7 @@ let myPlanets;
 let myBackground;
 let mySpaceship;
 let myBoost;
-const myControl = new Control(40);
+const myControl = new Control(30);
 
 //create objects when images are loaded
 function imagesLoaded() {
