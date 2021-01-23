@@ -44,27 +44,30 @@ class Game {
         myControl.update(this.count, myCanvas.width, myCanvas.height);
 
         //render
-        c.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        myBackground.render();
-        //myText.render(myTextFile, myCanvas.width, myCanvas.height);
-        myStars.render();
-        myPlanets.render();
-        mySpaceship.render();
-        myControl.render();
+        //console.log(myBackground.done); //RR
+        if (!myBackground.done) {
+            c.clearRect(0, 0, myCanvas.width, myCanvas.height);
+            myBackground.render();
+            //myText.render(myTextFile, myCanvas.width, myCanvas.height);
+            myStars.render();
+            myPlanets.render();
+            mySpaceship.render();
+            myControl.render();    
+        }
 
-        c.font = ("50px Arial"); //RR
-        c.fillText(myPlanets.fileH, 0, 100); //RR
-        c.fillText(myPlanets.sY2, 0, 200); //RR
-        c.fillText(myPlanets.sY, 0, 300); //RR
-        c.fillText(Math.floor(myPlanets.altitude), 0, 400); //RR
+        // c.font = ("50px Arial"); //RR
+        // c.fillText(myPlanets.fileH, 0, 100); //RR
+        // c.fillText(myPlanets.sY2, 0, 200); //RR
+        // c.fillText(myPlanets.sY, 0, 300); //RR
+        // c.fillText(Math.floor(myPlanets.altitude), 0, 400); //RR
 
-        c.font = ("50px Arial"); //RR
-        c.fillText(myBackground.fileH, 120, 100); //RR
-        c.fillText(myBackground.sY2, 120, 200); //RR
-        c.fillText(myBackground.sY, 120, 300); //RR
-        c.fillText(Math.floor(myBackground.altitude), 120, 400); //RR
+        // c.font = ("50px Arial"); //RR
+        // c.fillText(myBackground.fileH, 120, 100); //RR
+        // c.fillText(myBackground.sY2, 120, 200); //RR
+        // c.fillText(myBackground.sY, 120, 300); //RR
+        // c.fillText(Math.floor(myBackground.altitude), 120, 400); //RR
 
-        c.fillText(myCanvas.height, 250, 100); //RR
+        // c.fillText(myCanvas.height, 250, 100); //RR
     }
 }
 
@@ -119,7 +122,7 @@ class Background {
         if (count % this.period == 0 && !this.done) {
             //check for reaching transition period
             if (this.sY > 0) {
-                console.log(`one image sY ${this.sY}`); //RR
+                //console.log(`one image sY ${this.sY}`); //RR
                 this.drawOneImage = 0;
                 //console.log(`this.fileW ${this.fileW}`); //RR
                 this.sX = Math.floor(this.fileW - canvasW - (this.fileW - canvasW)/2);
@@ -134,7 +137,7 @@ class Background {
                 this.dH = canvasH;
                 this.dH2 = canvasH;
             } else if (this.sY <= 0) {
-                console.log(`transition ${this.sY}`); //RR
+                //console.log(`transition ${this.sY}`); //RR
 
                 //B image
                 this.sY2 = Math.floor(this.fileH - (canvasH - (this.fileH - this.altitude)));
@@ -151,7 +154,7 @@ class Background {
 
             //check for reaching end of file
             if (this.altitude > this.fileH && this.fileB < this.fileNum - 1) { 
-                console.log('3'); //RR
+                //console.log('3'); //RR
                 //reset altitude and go to next file
                 this.altitude = 1;
                 this.fileA = this.fileB;
@@ -316,7 +319,10 @@ function loop() {
 //image array
 const imageLocation = [
  'assets/img/stars.png', 
- 'assets/img/planets.png', 
+ 'assets/img/planet1.png', 
+ 'assets/img/planet2.png',
+ 'assets/img/planet3.png',
+ 'assets/img/planet4.png',
  'assets/img/back.png',
  'assets/img/spaceship.png',
  'assets/img/boost.png',
@@ -326,13 +332,6 @@ const imageLocation = [
  'assets/img/back4.png'
 ]
 const images = [];
-const planetsLocation = [
-    'assets/img/planet1.png', 
-    'assets/img/planet2.png',
-    'assets/img/planet3.png',
-    'assets/img/planet4.png'
-]
-const planetImages = [];
 let imageCount = 0;
 //game objects
 let myGame;
@@ -350,10 +349,10 @@ function imagesLoaded() {
     //create images
     myGame = new Game();
     myStars = new Background([images[0], images[0], images[0]], 1, 2, 1, 4);
-    myPlanets = new Background(planetImages, 2, 3, 2, 8);
-    myBackground = new Background([images[5], images[6], images[7], images[8]], 1, 3, 2, 8);
-    mySpaceship = new Spaceship(images[3]);
-    myBoost = new Spaceship(images[4]);
+    myPlanets = new Background([images[1], images[2], images[3], images[4]], 2, 3, 2, 8);
+    myBackground = new Background([images[5], images[5], images[5], images[5]], 1, 3, 2, 8);
+    mySpaceship = new Spaceship(images[6]);
+    myBoost = new Spaceship(images[7]);
     //listen for click
     myCanvas.addEventListener('click', (e) => {
         myControl.checkClick(e.clientX, e.clientY);
@@ -373,24 +372,6 @@ imageLocation.forEach( src => {
         if (imageCount == imageLocation.length) {
             //all images are loaded
             console.log('all images are loaded now'); //RR
-            // imagesLoaded();
-        }
-    }
-});
-
-imageCount = 0;
-
-planetsLocation.forEach( src => {
-    const image = new Image();
-    image.src = src;
-    planetImages.push(image);
-    image.onload = () => {
-        console.log(`${src} image loaded`); //RR
-        imageCount++; 
-        if (imageCount == imageLocation.length) {
-            //all images are loaded
-            console.log(planetImages); //RR
-            console.log('all planet images are loaded now'); //RR
             imagesLoaded();
         }
     }
