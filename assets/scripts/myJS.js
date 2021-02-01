@@ -27,48 +27,36 @@ console.log(document.documentElement.clientHeight); //RR
 class Game {
     constructor() {
         this.count = 0;
+        this.done = 0;
     }
 
     draw() {
         this.count++;
-        // myCanvas.width = html.clientWidth;
-        // myCanvas.height = html.clientHeight + 4;
-        // myCanvas.width = document.documentElement.clientWidth;
-        // myCanvas.height = document.documentElement.clientHeight;
 
-        //update
-        myBackground.update(this.count, myCanvas.width, myCanvas.height);
-        myStars.update(this.count, myCanvas.width, myCanvas.height);
-        // myText.update(this.count, myCanvas.width, myCanvas.height);
-        myPlanets.update(this.count, myCanvas.width, myCanvas.height);
-        mySpaceship.update(this.count, myCanvas.width, myCanvas.height);
-        myControl.update(this.count, myCanvas.width, myCanvas.height);
-
-        //render
-        //console.log(myBackground.done); //RR
         if (!myPlanets.done) {
+            //update
+            myBackground.update(this.count, myCanvas.width, myCanvas.height);
+            myStars.update(this.count, myCanvas.width, myCanvas.height);
+            myPlanets.update(this.count, myCanvas.width, myCanvas.height);
+            mySpaceship.update(this.count, myCanvas.width, myCanvas.height);
+            myControl.update(this.count, myCanvas.width, myCanvas.height);
+            //draw
             c.clearRect(0, 0, myCanvas.width, myCanvas.height);
             myBackground.render();
             myStars.render();
             myPlanets.render();
-            // myText.render();
             mySpaceship.render();
             myControl.render();    
+        } else if (!this.done) {
+            myfinalText.update(this.count, myCanvas.width, myCanvas.height);
+
+            c.clearRect(0, 0, myCanvas.width, myCanvas.height);
+            myBackground.render();
+            myStars.render();
+            myPlanets.render();
+            myfinalText.render();
+            this.done = 1;
         }
-
-        c.font = ("50px Arial"); //RR
-        // c.fillText(myText.sY, 0, 100); //RR
-        // c.fillText(myPlanets.sY, 0, 200); //RR
-        // c.fillText(myPlanets.sY, 0, 300); //RR
-        // c.fillText(Math.floor(myPlanets.altitude), 0, 400); //RR
-
-        // c.font = ("50px Arial"); //RR
-        // c.fillText(myBackground.fileH, 120, 100); //RR
-        // c.fillText(myBackground.sY2, 120, 200); //RR
-        // c.fillText(myBackground.sY, 120, 300); //RR
-        // c.fillText(Math.floor(myBackground.altitude), 120, 400); //RR
-
-        // c.fillText(myCanvas.height, 250, 100); //RR
     }
 }
 
@@ -315,8 +303,10 @@ class Control {
 
 //function to animate
 function loop() {
-    myGame.draw();
-    window.requestAnimationFrame(loop);
+    if (!myGame.done) {
+        myGame.draw();
+        window.requestAnimationFrame(loop);    
+    }
 }
 
 //start
@@ -341,7 +331,8 @@ const imageLocation = [
  'assets/img/back1.png',
  'assets/img/back2.png',
  'assets/img/back3.png',
- 'assets/img/back4.png'
+ 'assets/img/back4.png',
+ 'assets/img/finaltext.png'
 ]
 const images = [];
 let imageCount = 0;
@@ -353,6 +344,7 @@ let myPlanets;
 let myBackground;
 let mySpaceship;
 let myBoost;
+let myfinalText;
 const myControl = new Control(30);
 
 //create objects when images are loaded
@@ -384,11 +376,12 @@ function imagesLoaded() {
         images[8], 
         images[9], 
         images[10], 
-        images[11]], 2, 1.5, 2, 5);
+        images[11]], 2, 4, 2, 5);  //speed, thrust, min, max
     myBackground = new Background([images[12], images[12], images[12], images[12]], 1, 3, 2, 8);
     // myText = new Background([images[13], images[13]], 2, 3, 2, 8);
     mySpaceship = new Spaceship(images[14]);
     myBoost = new Spaceship(images[15]);
+    myfinalText = new Spaceship(images[20]);
     //listen for click
     myCanvas.addEventListener('click', (e) => {
         myControl.checkClick(e.clientX, e.clientY);
