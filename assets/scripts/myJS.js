@@ -276,6 +276,11 @@ class Control {
                 //boost
                 //console.log('boost'); //RR
                 myBoost.update(myGame.count, myCanvas.width, myCanvas.height);
+                myBoost1.update(myGame.count, myCanvas.width, myCanvas.height);
+                myBoost2.update(myGame.count, myCanvas.width, myCanvas.height);
+                myBoost3.update(myGame.count, myCanvas.width, myCanvas.height);
+                myBoost4.update(myGame.count, myCanvas.width, myCanvas.height);
+                myBoost5.update(myGame.count, myCanvas.width, myCanvas.height);
                 this.r = this.animateR;
                 //count animate time
                 if (this.animateCount >= this.ANIMATE) {
@@ -290,7 +295,17 @@ class Control {
     render() {
         //render boost if boosted
         if (this.animateCount != 0) {
-            myBoost.render();
+            if (this.animateCount <= 2) {
+                myBoost1.render();
+            } else if (this.animateCount <= 4) {
+                myBoost2.render();
+            } else if (this.animateCount <= 6) {
+                myBoost3.render();
+            } else if (this.animateCount <= 8) {
+                myBoost4.render();
+            } else {
+                myBoost5.render();
+            }
         }
         //render control on top
         c.fillStyle = '#2f3995'; //#231d2a 7b28a4
@@ -332,7 +347,12 @@ const imageLocation = [
  'assets/img/back2.png',
  'assets/img/back3.png',
  'assets/img/back4.png',
- 'assets/img/finaltext.png'
+ 'assets/img/finaltext.png',
+ 'assets/img/boost1.png',
+ 'assets/img/boost2.png',
+ 'assets/img/boost3.png',
+ 'assets/img/boost4.png',
+ 'assets/img/boost5.png'
 ]
 const images = [];
 let imageCount = 0;
@@ -344,6 +364,11 @@ let myPlanets;
 let myBackground;
 let mySpaceship;
 let myBoost;
+let myBoost1;
+let myBoost2;
+let myBoost3;
+let myBoost4;
+let myBoost5;
 let myfinalText;
 const myControl = new Control(30);
 
@@ -381,6 +406,11 @@ function imagesLoaded() {
     // myText = new Background([images[13], images[13]], 2, 3, 2, 8);
     mySpaceship = new Spaceship(images[14]);
     myBoost = new Spaceship(images[15]);
+    myBoost1 = new Spaceship(images[21]);
+    myBoost2 = new Spaceship(images[22]);
+    myBoost3 = new Spaceship(images[23]);
+    myBoost4 = new Spaceship(images[24]);
+    myBoost5 = new Spaceship(images[25]);
     myfinalText = new Spaceship(images[20]);
     //listen for click
     myCanvas.addEventListener('click', (e) => {
